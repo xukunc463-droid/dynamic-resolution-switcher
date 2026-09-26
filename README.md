@@ -1,8 +1,14 @@
-# DynamicResolutionSwitcher
+<p align="center">
+  <img src="assets/app-icon.png" alt="DynamicResolutionSwitcher 图标" width="128" height="128">
+</p>
 
-一个简单、免安装的 Windows 主显示器分辨率与刷新率切换工具。
+<h1 align="center">DynamicResolutionSwitcher</h1>
+
+<p align="center">一个简单、免安装的 Windows 主显示器分辨率与刷新率切换工具。</p>
 
 工具会读取显卡驱动实际提供的显示模式，不把分辨率写死在代码里。默认只显示与当前刷新率相同的分辨率，取消筛选后可查看全部可用组合。
+
+![DynamicResolutionSwitcher 软件界面](docs/screenshot.png)
 
 ## 功能
 

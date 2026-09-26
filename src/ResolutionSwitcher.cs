@@ -357,7 +357,15 @@ namespace ResolutionSwitcher
             KeyPreview = true;
             BackColor = Color.FromArgb(244, 247, 250);
             Font = new Font("Microsoft YaHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            Icon = SystemIcons.Application;
+            try
+            {
+                Icon = System.Drawing.Icon.ExtractAssociatedIcon(Application.ExecutablePath)
+                       ?? SystemIcons.Application;
+            }
+            catch
+            {
+                Icon = SystemIcons.Application;
+            }
             availableModes = new List<DisplayMode>();
 
             Label heading = new Label();

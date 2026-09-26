@@ -6,6 +6,7 @@ $ErrorActionPreference = "Stop"
 
 $projectRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $sourcePath = Join-Path $projectRoot "src\ResolutionSwitcher.cs"
+$iconPath = Join-Path $projectRoot "assets\app.ico"
 $releaseDirectory = Join-Path $projectRoot "release"
 $exePath = Join-Path $releaseDirectory "DynamicResolutionSwitcher.exe"
 $zipPath = Join-Path $releaseDirectory ("DynamicResolutionSwitcher-v{0}-win.zip" -f $Version)
@@ -21,6 +22,10 @@ if (-not $compiler) {
     throw "找不到 Windows 自带的 C# 编译器。请在 Windows 10/11 上运行此脚本。"
 }
 
+if (-not (Test-Path -LiteralPath $iconPath -PathType Leaf)) {
+    throw "找不到应用图标：$iconPath"
+}
+
 New-Item -ItemType Directory -Path $releaseDirectory -Force | Out-Null
 
 $compilerArguments = @(
@@ -32,6 +37,7 @@ $compilerArguments = @(
     "/reference:System.dll",
     "/reference:System.Drawing.dll",
     "/reference:System.Windows.Forms.dll",
+    ("/win32icon:{0}" -f $iconPath),
     ("/out:{0}" -f $exePath),
     $sourcePath
 )
