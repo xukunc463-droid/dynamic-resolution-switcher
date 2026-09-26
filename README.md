@@ -54,25 +54,6 @@ powershell -ExecutionPolicy Bypass -File .\build.ps1
 
 Windows 10/11 已包含兼容的 .NET Framework，不需要额外安装第三方依赖。
 
-## 发布到 GitHub
-
-先在 GitHub 创建一个空仓库，例如 **DynamicResolutionSwitcher**，然后在本目录运行：
-
-~~~powershell
-git init
-git add .
-git commit -m "Initial release"
-git branch -M main
-git remote add origin https://github.com/你的用户名/DynamicResolutionSwitcher.git
-git push -u origin main
-~~~
-
-随后进入 GitHub 仓库：
-
-1. 点击 **Releases** → **Draft a new release**。
-2. Tag 填写 **v1.0.0**。
-3. 上传 **release/DynamicResolutionSwitcher-v1.0.0-win.zip** 和 **release/SHA256SUMS.txt**。
-4. 点击 **Publish release**。
 
 ## License
 
