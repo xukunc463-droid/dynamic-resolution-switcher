@@ -1,59 +1,59 @@
-<p align="center">
-  <img src="assets/app-icon.png" alt="DynamicResolutionSwitcher 图标" width="128" height="128">
-</p>
+<p align="center"><img src="assets/app-icon.png" alt="DynamicResolutionSwitcher 图标" width="128" height="128"></p>
 
 <h1 align="center">DynamicResolutionSwitcher</h1>
 
-<p align="center">一个简单、免安装的 Windows 主显示器分辨率与刷新率切换工具。</p>
+<p align="center">免安装的 Windows 主显示器分辨率与刷新率切换工具<br><a href="README.en.md">English</a> · <a href="https://github.com/xukunc463-droid/dynamic-resolution-switcher/releases/latest">下载最新版本</a></p>
 
-工具会读取显卡驱动实际提供的显示模式，不把分辨率写死在代码里。默认只显示与当前刷新率相同的分辨率，取消筛选后可查看全部可用组合。
+<p align="center">
+  <a href="https://github.com/xukunc463-droid/dynamic-resolution-switcher/actions/workflows/windows-build.yml"><img src="https://github.com/xukunc463-droid/dynamic-resolution-switcher/actions/workflows/windows-build.yml/badge.svg" alt="Windows build"></a>
+  <a href="https://github.com/xukunc463-droid/dynamic-resolution-switcher/releases"><img src="https://img.shields.io/github/v/release/xukunc463-droid/dynamic-resolution-switcher?display_name=tag&label=release" alt="Latest release"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/xukunc463-droid/dynamic-resolution-switcher" alt="MIT license"></a>
+</p>
 
 ![DynamicResolutionSwitcher 软件界面](docs/screenshot.png)
 
+每次进游戏前都要打开显卡控制面板，手动切换分辨率和刷新率很麻烦。这个工具会列出 Windows 与显卡驱动已经提供的显示模式，直接在桌面上选择并切换。
+
+## 下载
+
+在 [Releases](https://github.com/xukunc463-droid/dynamic-resolution-switcher/releases/latest) 下载 DynamicResolutionSwitcher-v*-win.zip，解压后运行 DynamicResolutionSwitcher.exe。单文件、免安装：不需要管理员权限，不联网，也不收集数据。
+
 ## 功能
 
-- 动态读取主显示器支持的分辨率和刷新率
-- 当前模式自动高亮
-- 双击、按 Enter 或点击按钮即可切换
-- 按 F5 重新读取显示模式
-- 切换前先使用 Windows API 测试目标模式
-- 无需安装，无需管理员权限
+- 动态读取 Windows 主显示器可用的分辨率与刷新率
+- 默认筛选当前刷新率，自动标出当前显示模式
+- 双击、Enter 或按钮切换；F5 刷新；Esc 关闭
+- 在应用前使用 Windows API 测试目标模式
+- 不会创建或修改自定义分辨率
 
-## 下载和使用
+## 《无畏契约》与拉伸显示
 
-1. 打开仓库右侧的 **Releases**。
-2. 下载 **DynamicResolutionSwitcher-v*-win.zip**。
-3. 解压后运行 **DynamicResolutionSwitcher.exe**。
-4. 选择模式并切换；屏幕短暂闪黑属于正常现象。
+作者在自己的《无畏契约》环境中，配合 NVIDIA 缩放设置、游戏内显示设置和已创建的自定义分辨率，观察到了真实拉伸效果。这个工具只负责切换 Windows 主显示器已存在的显示模式；它不会改显卡缩放策略、游戏内设置、FPS 或反作弊配置。不同显卡、显示器和驱动的结果可能不同。
 
-## 使用注意事项
+## 已验证环境
 
-- 仅支持 Windows 10/11。
-- 当前版本只切换 **Windows 主显示器**，不提供多显示器选择。
-- 列表内容完全取决于显卡驱动；不会创建新的自定义分辨率。
-- NVIDIA、AMD 或 Intel 自定义分辨率需要先在对应显卡控制面板中创建。
-- 建议保持“只显示当前刷新率”开启，确认显示器支持后再尝试其他刷新率。
-- 当前版本没有倒计时自动恢复功能。即使 Windows API 测试通过，个别显示器在异常刷新率下仍可能黑屏。
-- 若切换后显示异常，可尝试 **Win + Ctrl + Shift + B** 重启显卡驱动，或进入 Windows 显示设置恢复。
-- 程序没有数字签名，从 GitHub 下载时 Windows SmartScreen 可能显示未知发布者；可以核对 Release 中的 SHA256。
-- 本程序不联网、不收集数据，只调用 Windows user32.dll 的显示设置 API。
+| 项目 | 已验证结果 |
+| --- | --- |
+| 显示模式 | 1920×1080 @ 165 Hz ↔ 1720×1080 @ 165 Hz |
+| 显卡 | NVIDIA GeForce GTX 1050 Ti |
+
+完整范围和反馈模板见 [兼容性说明](docs/compatibility.md)。
+
+## 注意事项
+
+- 当前版本仅切换 Windows 主显示器。
+- 可见模式取决于显示器和显卡驱动；请先在驱动控制面板中创建自定义分辨率。
+- 没有倒计时自动恢复功能。画面异常时可按 Win + Ctrl + Shift + B 重启显卡驱动，或在 Windows 显示设置中恢复。
+- 程序没有数字签名；请核对 Release 内的 SHA256SUMS.txt。
 
 ## 从源码构建
 
-在 Windows PowerShell 中运行：
+    powershell -ExecutionPolicy Bypass -File .\build.ps1
 
-~~~powershell
-powershell -ExecutionPolicy Bypass -File .\build.ps1
-~~~
+## 分享与反馈
 
-构建产物会生成在 **release** 文件夹：
-
-- DynamicResolutionSwitcher.exe
-- DynamicResolutionSwitcher-v1.0.0-win.zip
-- SHA256SUMS.txt
-
-Windows 10/11 已包含兼容的 .NET Framework，不需要额外安装第三方依赖。
-
+- [V2EX、Reddit 与短视频真实分享文案](docs/share-copy.md)
+- 欢迎按兼容性说明中的模板提交 Issue。
 
 ## License
 

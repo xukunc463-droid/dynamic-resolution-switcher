@@ -4,6 +4,10 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+if ($Version -notmatch '^\d+\.\d+\.\d+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$') {
+    throw "Version 必须是语义化版本，例如 1.0.0 或 1.0.0-ci.1。当前值：$Version"
+}
+
 $projectRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $sourcePath = Join-Path $projectRoot "src\ResolutionSwitcher.cs"
 $iconPath = Join-Path $projectRoot "assets\app.ico"
@@ -26,6 +30,15 @@ if (-not (Test-Path -LiteralPath $iconPath -PathType Leaf)) {
     throw "找不到应用图标：$iconPath"
 }
 
+$packageFiles = @(
+    $exePath,
+    (Join-Path $projectRoot "README.md"),
+    (Join-Path $projectRoot "README.en.md"),
+    (Join-Path $projectRoot "LICENSE"),
+    (Join-Path $projectRoot "assets"),
+    (Join-Path $projectRoot "docs")
+)
+
 New-Item -ItemType Directory -Path $releaseDirectory -Force | Out-Null
 
 $compilerArguments = @(
@@ -47,11 +60,13 @@ if ($LASTEXITCODE -ne 0) {
     throw "编译失败，退出码：$LASTEXITCODE"
 }
 
-Compress-Archive -LiteralPath @(
-    $exePath,
-    (Join-Path $projectRoot "README.md"),
-    (Join-Path $projectRoot "LICENSE")
-) -DestinationPath $zipPath -Force
+foreach ($packageFile in $packageFiles) {
+    if (-not (Test-Path -LiteralPath $packageFile)) {
+        throw "发布包缺少必需文件：$packageFile"
+    }
+}
+
+Compress-Archive -LiteralPath $packageFiles -DestinationPath $zipPath -Force
 
 $hashes = Get-FileHash -Algorithm SHA256 -LiteralPath @($exePath, $zipPath)
 $lines = $hashes | ForEach-Object {
